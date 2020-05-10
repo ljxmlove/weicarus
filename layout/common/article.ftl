@@ -2,66 +2,50 @@
 	<#include "../comment/comment.ftl">
 		<div class="card article-list" >
 			<div class="card-content article">
-				<#if index>
-					<h1 class="title is-size-4 is-size-4-mobile has-text-weight-bold is-marginless">
-						<a class="has-link-black-ter" href="${post.fullPath!}">${post.title!}</a>
-					</h1>
-				<#else>
-					<h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-						${post.title!}
-					</h1>
-				</#if>
 				<#-- 12布局文章内容 -->
 				<#if index>
 					<div class="columns is-marginless is-paddingless is-mobile">
 						<#if post.thumbnail?? && post.thumbnail!=''>
-						<div class="column is-9 clean-left-padding">
-							<#-- 文章的基本信息 -->
-							<div class="level article-meta is-size-7 is-uppercase is-mobile">
-								<div class="level-left">
-									<#if post.categories?? && post.categories?size gt 0>
-									<div class="level-item buttons are-small">
-										<#list post.categories as category>
-											<a class="button is-primary is-outlined" href="${category.fullPath!}">${category.name!}</a>&nbsp;
-										</#list>
-									</div>
-									</#if>
+							<div class="column is-4 is-paddingless category-img">
+								<div class="card-image">
+									<a href="${post.fullPath!}">
+										<img class="thumbnail" src="${post.thumbnail!}" alt="${post.title!}">
+									</a>
 								</div>
 							</div>
-							<#-- 文章概要 -->
-							<#if post.summary?? && post.summary!=''>
-								<div class="content more-content">${post.summary!}</div>
-							</#if>
-						</div>
-						<div class="column is-3 clean-right-padding">
-							<div class="card-image">
-								<a href="${post.fullPath!}">
-									<img class="thumbnail" src="${post.thumbnail!}" alt="${post.title!}">
-								</a>
-							</div>
-						</div>
-						<#else>
-						<div class="column is-12 clean-left-padding">
-							<#-- 文章的基本信息 -->
-							<div class="level article-meta is-size-7 is-uppercase is-mobile">
-								<div class="level-left">
-									<#if post.categories?? && post.categories?size gt 0>
-									<div class="level-item buttons are-small">
-										<#list post.categories as category>
-											<a class="button is-primary is-outlined" href="${category.fullPath!}">${category.name!}</a>&nbsp;
-										</#list>
-									</div>
-									</#if>
-								</div>
-							</div>
-							<#-- 文章概要 -->
-							<#if post.summary?? && post.summary!=''>
-								<div class="content more-content">${post.summary!}</div>
-							</#if>
-						</div>
 						</#if>
+						<div class="column <#if post.thumbnail?? && post.thumbnail!=''>is-8<#else>is-12</#if> category-content-padding">
+							<h1 class="title is-size-5 is-size-5-mobile has-text-weight-bold is-marginless overflow-1-hide">
+								<a class="has-link-black-ter" href="${post.fullPath!}">${post.title!}</a>
+							</h1>
+							<#-- 文章概要 -->
+							<#if post.summary?? && post.summary!=''>
+								<div class="content more-content category-content ">${post.summary!}</div>
+							</#if>
+							<div class="level is-size-7 is-uppercase is-mobile has-text-justified">
+								<div class="level-left">
+									<#if post.categories?? && post.categories?size gt 0>
+										<div class="level-item buttons are-small">
+											<#list post.categories as category>
+												<a class="button is-small is-light" href="${category.fullPath!}">${category.name!}</a>&nbsp;
+											</#list>
+										</div>
+									</#if>
+								</div>
+								<div class="level level-right is-size-7 is-uppercase is-overflow-x-auto">
+									<span class="has-text-grey"><i class="fas fa-user mr-2"></i>&nbsp;&nbsp;${user.nickname!"博主"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<time class="has-text-grey" datetime="${post.createTime!}"><i class="fas fa-calendar mr-2"></i>&nbsp;&nbsp;${post.createTime?string('yyyy-MM-dd
+						HH:mm')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</time>
+									<span class="has-text-grey"><i class="fas fa-eye mr-2"></i>&nbsp;&nbsp;${post.visits!}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<span class="has-text-grey"><i class="fas fa-comments mr-2"></i>&nbsp;&nbsp;${post.commentCount}</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				<#else>
+					<h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+						${post.title!}
+					</h1>
 					<#-- 文章的详情页面信息 -->
 					<div class="level level-left article-meta is-size-7 is-uppercase is-overflow-x-auto">
 						<span class="has-text-grey"><i class="fas fa-user mr-2"></i>&nbsp;&nbsp;${user.nickname!"博主"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -94,16 +78,7 @@
 					    </div>
 					</#if>
 				</#if>
-					
-				<#if index && post.summary?? && post.summary!=''>
-					<div class="level level-left article-meta is-size-7 is-uppercase is-overflow-x-auto">
-						<span class="has-text-grey"><i class="fas fa-user mr-2"></i>&nbsp;&nbsp;${user.nickname!"博主"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<time class="has-text-grey" datetime="${post.createTime!}"><i class="fas fa-calendar mr-2"></i>&nbsp;&nbsp;${post.createTime?string('yyyy-MM-dd
-							HH:mm')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</time>
-						<span class="has-text-grey"><i class="fas fa-eye mr-2"></i>&nbsp;&nbsp;${post.visits!}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<span class="has-text-grey"><i class="fas fa-comments mr-2"></i>&nbsp;&nbsp;${post.commentCount}</span>
-					</div>
-				</#if>
+
 				<#if !index && settings.share_type?? && settings.share_type!=''>
 					<#include "../share/${settings.share_type}.ftl">
 				</#if>
